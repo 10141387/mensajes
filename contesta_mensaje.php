@@ -32,4 +32,7 @@ echo "<body><div id='conten' >";
 	echo "</div>";
 	
 	
+
+
+mysqli_close($con);
 ?>
