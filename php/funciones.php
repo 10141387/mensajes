@@ -21,7 +21,8 @@ function mostrar_mensajes_inicio($con){
 		//mensajes_respuesta($muestra['id_mensaje'],$con);
 	} }else echo "No hay mensajes";
 
-	}}
+	}
+}
 
 function mostrar_mensajes($con){
 	$query="select * from mensaje where id_padre='0' order by id_mensaje desc";
@@ -35,10 +36,9 @@ function mostrar_mensajes($con){
 		//mensajes_respuesta($muestra['id_mensaje'],$con);
 	}
 
-	}
-	
-	
-}
+	}}
+
+
 function mensajes_respuesta($padre,$link){
 	
 	$query="select * from mensaje where id_padre='".$padre."'";
@@ -52,4 +52,20 @@ function mensajes_respuesta($padre,$link){
 
 	}
 	
+}
+
+function logueado(){
+	if(!isset($_SESSION['login'])){
+		header("Location:sinacceso.php");
+	} else return true;
+	
+	
+	
+	
+}
+
+function salir(){
+	
+	session_destroy();
+	echo "bye";
 }

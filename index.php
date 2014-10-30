@@ -45,11 +45,11 @@
   </div>
   <div class="smallWrap">
    <h2>Entrar</h2>
-   <p><img src="images/blankPic.png" alt="" /><form class="form1" method="post" action="entrar.php">
+   <p><img src="images/blankPic.png" alt="" /><form class="form1" method="post" action="php/entrar.php">
    <p><i>Los Campos son obligados</i></p>
    Usuario<input name="name" type="text" /><br>
-   Contraseña<input name="id" type="text" />
-   <input name="" type="submit" value="Entrar" />
+   Contraseña<input name="contra" type="password" />
+   <input name="login" type="submit" value="Entrar" />
   </form>
   </div>
   <hr />

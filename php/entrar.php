@@ -1,8 +1,8 @@
 <?php
     require "funciones.php";
 	$con=conectar();
-	
 	session_start();
+	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -25,6 +25,7 @@
    <li><a href="http://www.itq.edu.mx">ITQ</a></li>
    <li><a href="http://www.facebook.com/mensajes.itq">Facebook</a></li>
    <li><a href="http://www.titter.com/mensajes.itq">Twitter</a></li>
+   <?php if(isset($_SESSION['login'])) echo "<li><a href='salir.php'>Salir</a></li>"; ?>
   </ul>
   <p class="t1">"La Tierra <span>será </span> como sean los hombres."</p>
   <h1>~ Comunicate con nostros ~<br /> Avisos.</h1>
@@ -32,32 +33,54 @@
   <a href="#" class="dl"></a>
   <hr />
   <div class="smallWrap first">
-   <h2>Contesta Mensaje</h2>
-   <?php if(logueado()){
+   <h2>Mensajes Recientes</h2>
+   <p><img src="images/blankPic.png" alt="" /><?php 
+   
+   if(isset($_POST['login'])&&!empty($_POST['name'])&&!empty($_POST['contra'])){
    	
-	echo "Bienvenido ".$_SESSION['nombre_largo'];
-   if(!isset($_POST['btn_contesta'])) {
-		$id=$_GET['id_padre'];
-		echo "<form name='contesta_mensaje' action='contesta_mensaje.php' method='post'>
-		<input type='hidden' name='id_padre' value='".$id."'>
-		<textarea name='form_mensaje_respuesta' col='50' rows='5'>Mensaje
-		</textarea>
-		<input type='submit' name='btn_contesta' value='Contestar'>
-</form>"; ;
-	}else {
-		$id=$_POST['id_padre'];
+   		$query="select * from usuario where nombre_corto='".$_POST['name']."' and password='".md5($_POST['contra'])."'";
+	   if(!$resultado=mysqli_query($con,$query)) {echo "error". mysqli_error($con);}
+	   else{
+	$cuantos=mysqli_num_rows($resultado);
 		
+	   	if ($cuantos>0){
+	   		$muestra=mysqli_fetch_array($resultado);
+			
+			echo "Bienvenido ". utf8_encode($muestra['nombre_largo']);
+			$_SESSION['login']=TRUE;
+			$_SESSION['nombre_largo']=utf8_encode($muestra['nombre_largo']);
+			$_SESSION['tipo_usuario']=$muestra['id_tipo_usuario'];
+			$_SESSION['id_usuario']=$muestra['id_usuario'];
 		
-		
-		$query="INSERT INTO mensaje (id_mensaje, id_padre,asunto,id_usuario,descripcion,id_cat,fecha_creacion) 
-		VALUES (NULL, '".$id."', 'REspuesta', '1', '".$_POST['form_mensaje_respuesta']."', '2', '2014-10-22');";
-		if(!$resultado=mysqli_query($con, $query)) {echo "Error".mysqli_error($con);} else{
-				
-				header('Location: /mensajes/php/vermensajes.php');
-				
-			echo "<a href='vermensajes.php'>Regresar</a>";}	}}?>
+			print_r($_SESSION);
+			
+			
+	   	} else {
+	   		echo "usuario y/o contraseña incorrectos";
+	   	}
+	   }
+   } else{echo "debes llenar todos los campos";}
+   
+ 
+   ?>
+   
   </div>
-  
+  <div class="smallWrap">
+   <h2>Notas externas</h2>
+   <p><img src="images/blankPic.png" alt="" />Pellentesque nibh tortor, tempor ut congue at, sodales eu nibh. Mauris consectetur luctus ligula, in molestie felis feugiat id. Phasellus iaculis....</p>
+   <p>Pellentesque nibh tortor, tempor ut congue at, sodales eu nibh. Mauris consectetur luctus ligula, in molestie felis feugiat id. Phasellus iaculis....</p>
+   <a href="#" class="view">Más</a>
+  </div>
+  <?php if(!$_SESSION['login']){
+  	echo "  <div class='smallWrap'>
+   <h2>Entrar</h2>
+   <p><img src='images/blankPic.png' alt='' /><form class='form1' method='post' action='entrar.php'>
+   <p><i>Los Campos son obligados</i></p>
+   Usuario<input name='name' type='text' /><br>
+   Contraseña<input name='contra' type='password' />
+   <input name='login' type='submit' value='Entrar' />
+  </form>
+  </div>";}?>
   <hr />
   <h3 class="mt">Maecenas dignissim</h3>
   <p>Suspendisse sollicitudin vestibulum luctus. Nulla dolor nunc, vestibulum a consequat at, vulputate ut magna. Aenean convallis odio odio. Phasellus feugiat eros id massa congue quis congue libero fermentum. In tellus lorem, varius nec vehicula a, pharetra in eros. Ut in nibh et risus lobortis tempor ut nec est. Phasellus ut interdum nisi. </p>

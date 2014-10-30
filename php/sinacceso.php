@@ -2,7 +2,7 @@
     require "funciones.php";
 	$con=conectar();
 	
-	session_start();
+	
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -32,32 +32,25 @@
   <a href="#" class="dl"></a>
   <hr />
   <div class="smallWrap first">
-   <h2>Contesta Mensaje</h2>
-   <?php if(logueado()){
-   	
-	echo "Bienvenido ".$_SESSION['nombre_largo'];
-   if(!isset($_POST['btn_contesta'])) {
-		$id=$_GET['id_padre'];
-		echo "<form name='contesta_mensaje' action='contesta_mensaje.php' method='post'>
-		<input type='hidden' name='id_padre' value='".$id."'>
-		<textarea name='form_mensaje_respuesta' col='50' rows='5'>Mensaje
-		</textarea>
-		<input type='submit' name='btn_contesta' value='Contestar'>
-</form>"; ;
-	}else {
-		$id=$_POST['id_padre'];
-		
-		
-		
-		$query="INSERT INTO mensaje (id_mensaje, id_padre,asunto,id_usuario,descripcion,id_cat,fecha_creacion) 
-		VALUES (NULL, '".$id."', 'REspuesta', '1', '".$_POST['form_mensaje_respuesta']."', '2', '2014-10-22');";
-		if(!$resultado=mysqli_query($con, $query)) {echo "Error".mysqli_error($con);} else{
-				
-				header('Location: /mensajes/php/vermensajes.php');
-				
-			echo "<a href='vermensajes.php'>Regresar</a>";}	}}?>
+   <h2>Acceso Restringido</h2>
+   <p><img src="images/blankPic.png" alt="" /><h1>Debes loguearte para poder entrar aquí</h1>
+   <a href="php/vermensajes.php" class="view">Ver más</a>
   </div>
-  
+  <div class="smallWrap">
+   <h2>Notas externas</h2>
+   <p><img src="images/blankPic.png" alt="" />Pellentesque nibh tortor, tempor ut congue at, sodales eu nibh. Mauris consectetur luctus ligula, in molestie felis feugiat id. Phasellus iaculis....</p>
+   <p>Pellentesque nibh tortor, tempor ut congue at, sodales eu nibh. Mauris consectetur luctus ligula, in molestie felis feugiat id. Phasellus iaculis....</p>
+   <a href="#" class="view">Más</a>
+  </div>
+  <div class="smallWrap">
+   <h2>Entrar</h2>
+   <p><img src="images/blankPic.png" alt="" /><form class="form1" method="post" action="entrar.php">
+   <p><i>Los Campos son obligados</i></p>
+   Usuario<input name="name" type="text" /><br>
+   Contraseña<input name="id" type="text" />
+   <input name="" type="submit" value="Entrar" />
+  </form>
+  </div>
   <hr />
   <h3 class="mt">Maecenas dignissim</h3>
   <p>Suspendisse sollicitudin vestibulum luctus. Nulla dolor nunc, vestibulum a consequat at, vulputate ut magna. Aenean convallis odio odio. Phasellus feugiat eros id massa congue quis congue libero fermentum. In tellus lorem, varius nec vehicula a, pharetra in eros. Ut in nibh et risus lobortis tempor ut nec est. Phasellus ut interdum nisi. </p>
