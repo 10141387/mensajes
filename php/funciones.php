@@ -13,12 +13,13 @@ function mostrar_mensajes_inicio($con){
 	
 	if (!$resultado=mysqli_query($con,$query)) {echo "Error". mysqli_error($con);}
 	else{
-	
+	$cuantos = mysqli_num_rows($resultado);
+		if($cuantos>0){
 	while($muestra=mysqli_fetch_array($resultado)){
 		echo "<span class='marker'>Tema:".$muestra['asunto']."<br/></span>";
 		echo "".$muestra['descripcion']."<a href='contesta_mensaje.php?id_padre=".$muestra['id_mensaje']."'> Contestar</a><br>";
 		//mensajes_respuesta($muestra['id_mensaje'],$con);
-	}
+	} }else echo "No hay mensajes";
 
 	}}
 
